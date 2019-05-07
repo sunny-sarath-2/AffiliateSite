@@ -18,15 +18,22 @@ class FixedPlugin extends Component {
       bg_checked: true,
       bgImage: this.props.bgImage,
       checkedB: this.props.checkedB,
-      tokenset: true
+      tokenset: true,
+      headercolors: [],
+      widgetcolors: [],
+      footercolors: []
     };
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick() {
     this.props.handleFixedClick();
   }
+  componentDidMount() {}
   render() {
-    //console.log("token", this.state.tokenset);
+    const headercolors = this.props.headercolors;
+    const widgetcolors = this.props.widgetcolors;
+    const footercolors = this.props.footercolors;
+
     return (
       <div
         className={classnames("fixed-plugin", {
@@ -38,11 +45,11 @@ class FixedPlugin extends Component {
             <i className="fa fa-cog fa-2x" />
           </div>
           <ul className="dropdown-menu">
-            <li className="header-title">HEADER FILTERS</li>
+            <li className="header-title">HEADER COLORS</li>
             <li className="adjustments-line">
               <a className="switch-trigger">
                 <div>
-                  <span
+                  {/* <span
                     className={
                       this.props.headercolor === "primary"
                         ? "badge filter badge-purple active"
@@ -85,80 +92,120 @@ class FixedPlugin extends Component {
                     onClick={() => {
                       this.props.handleHeaderColorClick("red", "danger");
                     }}
-                  />
-                  <span
-                    className={
-                      this.props.headercolor === "warning"
-                        ? "badge filter badge-orange active"
-                        : "badge filter badge-orange"
+                  /> */}
+                  {headercolors.map((color, i) => {
+                    console.log(color);
+                    if (color === "#00bbff") {
+                      var col = "blue",
+                        vcol = "info";
+                    } else if (color === "#9c27b0") {
+                      var col = "purple",
+                        vcol = "primary";
+                    } else if (color === "#ff9800") {
+                      var col = "orange",
+                        vcol = "warning";
+                    } else if (color === "#4caf50") {
+                      var col = "green",
+                        vcol = "success";
+                    } else {
+                      var col = "red",
+                        vcol = "danger";
                     }
-                    data-color="orange"
-                    onClick={() => {
-                      this.props.handleHeaderColorClick("orange", "warning");
-                    }}
-                  />
+                    return (
+                      <span
+                        key={i}
+                        className={
+                          this.props.headercolor === vcol
+                            ? "badge filter badge-" + col + " active"
+                            : "badge filter badge-" + col + ""
+                        }
+                        data-color={col}
+                        onClick={() => {
+                          this.props.handleHeaderColorClick(col, vcol);
+                        }}
+                      />
+                    );
+                  })}
                 </div>
               </a>
             </li>
-            <li className="header-title">COLOR FILTERS</li>
+            <li className="header-title">WIDGET COLORS</li>
             <li className="adjustments-line">
               <a className="switch-trigger">
                 <div>
-                  <span
-                    className={
-                      this.props.bgColor === "purple"
-                        ? "badge filter badge-purple active"
-                        : "badge filter badge-purple"
+                  {widgetcolors.map((color, i) => {
+                    console.log(color);
+                    if (color === "#00bbff") {
+                      var col = "blue",
+                        vcol = "info";
+                    } else if (color === "#9c27b0") {
+                      var col = "purple",
+                        vcol = "primary";
+                    } else if (color === "#ff9800") {
+                      var col = "orange",
+                        vcol = "warning";
+                    } else if (color === "#4caf50") {
+                      var col = "green",
+                        vcol = "success";
+                    } else {
+                      var col = "red",
+                        vcol = "danger";
                     }
-                    data-color="purple"
-                    onClick={() => {
-                      this.props.handleColorClick("purple", "primary");
-                    }}
-                  />
-                  <span
-                    className={
-                      this.props.bgColor === "blue"
-                        ? "badge filter badge-blue active"
-                        : "badge filter badge-blue"
+                    return (
+                      <span
+                        key={i}
+                        className={
+                          this.props.bgColor === vcol
+                            ? "badge filter badge-" + col + " active"
+                            : "badge filter badge-" + col + ""
+                        }
+                        data-color={col}
+                        onClick={() => {
+                          this.props.handleColorClick(col, vcol);
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              </a>
+            </li>
+            <li className="header-title">FOOTER COLORS</li>
+            <li className="adjustments-line">
+              <a className="switch-trigger">
+                <div>
+                  {footercolors.map((color, i) => {
+                    console.log(color);
+                    if (color === "#00bbff") {
+                      var col = "blue",
+                        vcol = "info";
+                    } else if (color === "#9c27b0") {
+                      var col = "purple",
+                        vcol = "primary";
+                    } else if (color === "#ff9800") {
+                      var col = "orange",
+                        vcol = "warning";
+                    } else if (color === "#4caf50") {
+                      var col = "green",
+                        vcol = "success";
+                    } else {
+                      var col = "red",
+                        vcol = "danger";
                     }
-                    data-color="blue"
-                    onClick={() => {
-                      this.props.handleColorClick("blue", "info");
-                    }}
-                  />
-                  <span
-                    className={
-                      this.props.bgColor === "green"
-                        ? "badge filter badge-green active"
-                        : "badge filter badge-green"
-                    }
-                    data-color="green"
-                    onClick={() => {
-                      this.props.handleColorClick("green", "success");
-                    }}
-                  />
-                  <span
-                    className={
-                      this.props.bgColor === "red"
-                        ? "badge filter badge-red active"
-                        : "badge filter badge-red"
-                    }
-                    data-color="red"
-                    onClick={() => {
-                      this.props.handleColorClick("red", "danger");
-                    }}
-                  />
-                  <span
-                    className={
-                      this.props.bgColor === "orange"
-                        ? "badge filter badge-orange active"
-                        : "badge filter badge-orange"
-                    }
-                    data-color="orange"
-                    onClick={() => {
-                      this.props.handleColorClick("orange", "warning");
-                    }}
-                  />
+                    return (
+                      <span
+                        key={i}
+                        className={
+                          this.props.headercolor === vcol
+                            ? "badge filter badge-" + col + " active"
+                            : "badge filter badge-" + col + ""
+                        }
+                        data-color={col}
+                        onClick={() => {
+                          //this.props.handleColorClick(col, vcol);
+                        }}
+                      />
+                    );
+                  })}
                 </div>
               </a>
             </li>

@@ -15,6 +15,8 @@ const productService = {
   getAffiliateConfig: user =>
     serviceBase.get("/shoojus/affiliate_config/" + user),
   getNrpaEvents: () => serviceBase.get("/shoojus/nrpa_events"),
-  getBlogs: () => serviceBase.get("/blogs")
+  getBlogs: () => serviceBase.get("/blogs"),
+  getTemplateconfig: data =>
+    serviceBase.get("/shoojus/getTemplateconfig/" + data)
 };
 export default productService;

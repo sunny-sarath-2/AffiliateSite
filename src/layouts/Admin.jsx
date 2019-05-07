@@ -62,7 +62,10 @@ class Dashboard extends React.Component {
       mobileOpen: false,
       userDetails: [],
       showConfig: true,
-      tokenset: false
+      tokenset: false,
+      t_headercolors: [],
+      t_widgetcolors: [],
+      t_footercolors: []
     };
     this.saveConfig = this.saveConfig.bind(this);
   }
@@ -130,7 +133,7 @@ class Dashboard extends React.Component {
     let url = qs.parse(this.props.location.search);
     //console.log(url.accessToken);
     //console.log(url.strapiToken);
-    console.log(url)
+    console.log(url);
     if (url.accessToken != undefined) {
       localStorage.setItem("accessToken", url.accessToken);
       localStorage.setItem("strapiToken", url.strapiToken);
@@ -148,8 +151,17 @@ class Dashboard extends React.Component {
           showConfig: false
         });
       }
+      let template = await API.getTemplateconfig(userDetails.userName);
+      //console.log(template, "templatedata");
+      if (template.series.length > 0) {
+        await this.setState({
+          t_footercolors: template.series[0].fields.footercolors,
+          t_headercolors: template.series[0].fields.headercolors,
+          t_widgetcolors: template.series[0].fields.widgetcolors
+        });
+      }
       let affiliate_config = await API.getAffiliateConfig(userDetails.userName);
-      console.log(affiliate_config.series.length);
+      //console.log(affiliate_config, "affiliate_config");
       if (affiliate_config.series.length > 0) {
         await this.setState({
           color: affiliate_config.series[0].fields.color,
@@ -189,7 +201,7 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-
+    console.log(this.state.t_headercolors);
     return (
       <div className={classes.wrapper}>
         <Sidebar
@@ -277,6 +289,9 @@ class Dashboard extends React.Component {
               fixedClasses={this.state.fixedClasses}
               saveConfig={this.saveConfig}
               tokenset={this.state["tokenset"]}
+              headercolors={this.state["t_headercolors"]}
+              widgetcolors={this.state["t_widgetcolors"]}
+              footercolors={this.state["t_footercolors"]}
             />
           ) : null}
         </div>
