@@ -12,6 +12,10 @@ import GridContainer from "../../components/Grid/GridContainer";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import qs from "query-string";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
 import API from "../../services/API";
 
 const styles = {
@@ -66,7 +70,7 @@ class Event1 extends React.Component {
   async componentDidMount() {
     let response = await API.getEvents();
     this.setState({
-      tests: response.fields,
+      tests: response.series,
       loading: false
     });
     //this.props.history.push("/");
@@ -88,123 +92,63 @@ class Event1 extends React.Component {
     } else if (stateParams.checkedB === false) {
       return (
         <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card>
-              <CardHeader color={stateParams.tempcolor}>
-                <h4
-                  style={{ fontSize: "35px", fontWeight: "500" }}
-                  className={classes.cardTitleWhite}
-                >
-                  {this.state.tests.description}
-                </h4>
-                <p
-                  style={{ fontSize: "20px", fontWeight: "500" }}
-                  className={classes.cardCategoryWhite}
-                >
-                  {this.state.tests.eventcity} {this.state.tests.eventstate}{" "}
-                  {" | "}
-                  {this.state.tests.start_date}
-                </p>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <div
-                      style={{
-                        width: "100%",
-                        background: "#FFF",
-                        color: "#000",
-                        padding: "0px",
-                        fontSize: "20px",
-                        fontWeight: "500"
-                      }}
-                      dangerouslySetInnerHTML={{
-                        __html: this.state.tests.mainbody
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={6}>
-            <Card>
-              <CardHeader color={stateParams.tempcolor}>
-                <h4
-                  style={{ fontSize: "25px", fontWeight: "500" }}
-                  className={classes.cardTitleWhite}
-                >
-                  {"Date"}
-                </h4>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={6} md={6}>
-                    <div
-                      style={{
-                        width: "100%",
-                        background: "#FFF",
-                        color: "#000",
-                        padding: "0px",
-                        fontSize: "20px",
-                        fontWeight: "500"
-                      }}
+          {this.state.tests.map((series, i) => {
+            return (
+              <GridItem key={i} xs={12} sm={12} md={12}>
+                <Card className={classes.card}>
+                  <CardContent>
+                    <Typography
+                      style={{ color: stateParams.color }}
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
                     >
-                      {this.state.tests.start_date}
-                    </div>
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={6}>
-            <Card>
-              <CardHeader color={stateParams.tempcolor}>
-                <h4
-                  style={{ fontSize: "25px", fontWeight: "500" }}
-                  className={classes.cardTitleWhite}
-                >
-                  {"Location"}
-                </h4>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={6} md={6}>
-                    <div
-                      style={{
-                        width: "100%",
-                        background: "#FFF",
-                        color: "#000",
-                        padding: "0px",
-                        fontSize: "20px",
-                        fontWeight: "500"
-                      }}
-                    >
-                      {"City: " + this.state.tests.eventcity}
+                      {series.fields.title}
+                    </Typography>
+                    <Typography component="p">
+                      {series.fields.description}
+                    </Typography>
+                    <div>
                       <br />
-                      {"State: " + this.state.tests.eventstate}
+                      <p>
+                        <b>
+                          <u>Start date </u>: {series.fields.start_date}
+                        </b>
+                      </p>
+                      <br />
+                      <p>
+                        <b>
+                          <u>End date </u>: {series.fields.end_date}
+                        </b>
+                      </p>
+                      <br />
+                      <p>
+                        <b>
+                          <u>City </u>: {series.fields.event_city}
+                        </b>
+                      </p>
+                      <br />
+                      <p>
+                        <b>
+                          <u>State </u>: {series.fields.event_state}
+                        </b>
+                      </p>
                     </div>
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={6}>
-            <div>
-              <a
-                href="https://twitter.com/intent/tweet?screen_name=ASCAtweets&ref_src=twsrc%5Etfw"
-                className="twitter-mention-button"
-                data-show-count="false"
-              >
-                Tweet to @ASCAtweets
-              </a>
-            </div>
-            <script
-              async
-              src="https://platform.twitter.com/widgets.js"
-              charSet="utf-8"
-            />
-          </GridItem>
+                  </CardContent>
+                  <CardActions>
+                    {/* <Button
+                      href={series.fields.link}
+                      target="_blank"
+                      sm="true"
+                      color={stateParams.tempcolor}
+                    >
+                      Visit site
+                    </Button> */}
+                  </CardActions>
+                </Card>
+              </GridItem>
+            );
+          })}
         </GridContainer>
       );
     } else {
