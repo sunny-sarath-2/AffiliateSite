@@ -172,6 +172,8 @@ class Dashboard extends React.Component {
           t_footercolors: template.series[0].fields.footercolors,
           t_headercolors: template.series[0].fields.headercolors,
           t_widgetcolors: template.series[0].fields.widgetcolors
+            ? template.series[0].fields.widgetcolors
+            : []
         });
       }
       let affiliate_config = await API.getAffiliateConfig(userDetails.userName);
