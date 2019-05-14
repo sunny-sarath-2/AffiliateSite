@@ -166,11 +166,15 @@ class Dashboard extends React.Component {
             : []
         });
       }
-      
+
       if (template.series.length > 0) {
         await this.setState({
-          t_footercolors: template.series[0].fields.footercolors,
-          t_headercolors: template.series[0].fields.headercolors,
+          t_footercolors: template.series[0].fields.footercolors
+            ? template.series[0].fields.footercolors
+            : [],
+          t_headercolors: template.series[0].fields.headercolors
+            ? template.series[0].fields.headercolors
+            : [],
           t_widgetcolors: template.series[0].fields.widgetcolors
             ? template.series[0].fields.widgetcolors
             : []
@@ -217,7 +221,7 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    console.log(this.state.t_headercolors);
+    console.log(this.state);
     return (
       <div className={classes.wrapper}>
         <Sidebar
