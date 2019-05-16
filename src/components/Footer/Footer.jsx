@@ -9,12 +9,16 @@ import footerStyle from "assets/jss/material-dashboard-react/components/footerSt
 
 function Footer({ ...props }) {
   const { classes } = props;
+
   return (
-    <footer className={classes.footer}>
+    <footer
+      style={{ backgroundColor: props.footercolor }}
+      className={classes.footer}
+    >
       <div className={classes.container}>
-        <div className={classes.left}>
+        {/* <div className={classes.left}>
           <List className={classes.list}>
-            {/* <ListItem className={classes.inlineBlock}>
+            <ListItem className={classes.inlineBlock}>
               <a href="#home" className={classes.block}>
                 Home
               </a>
@@ -33,11 +37,13 @@ function Footer({ ...props }) {
               <a href="#blog" className={classes.block}>
                 Blog
               </a>
-            </ListItem> */}
+            </ListItem> 
           </List>
-        </div>
-        <p className={classes.right}>
-          <span>&copy; {1900 + new Date().getYear()} FUSE</span>
+        </div>*/}
+        <p>
+          <span style={{ color: "#fdfdfd" }}>
+            &copy; {1900 + new Date().getYear()} FUSE
+          </span>
         </p>
       </div>
     </footer>

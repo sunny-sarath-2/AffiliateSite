@@ -195,13 +195,13 @@ class FixedPlugin extends Component {
                       <span
                         key={i}
                         className={
-                          this.props.headercolor === vcol
+                          this.props.footercolor === col
                             ? "badge filter badge-" + col + " active"
                             : "badge filter badge-" + col + ""
                         }
                         data-color={col}
                         onClick={() => {
-                          //this.props.handleColorClick(col, vcol);
+                          this.props.handleFooterColorClick(col, vcol);
                         }}
                       />
                     );

@@ -50,6 +50,9 @@ class Dashboard extends React.Component {
       color: localStorage.getItem("color")
         ? localStorage.getItem("color")
         : "blue",
+      footercolor: localStorage.getItem("footercolor")
+        ? localStorage.getItem("footercolor")
+        : "blue",
       tempcolor: localStorage.getItem("tempcolor")
         ? localStorage.getItem("tempcolor")
         : "primary",
@@ -82,6 +85,10 @@ class Dashboard extends React.Component {
     localStorage.setItem("headercolor", color1);
     this.setState({ headercolor: color1 });
   };
+  handleFooterColorClick = (color, color1) => {
+    localStorage.setItem("footercolor", color);
+    this.setState({ footercolor: color });
+  };
   handleSwitchChange = name => {
     this.setState({
       checkedB: !this.state.checkedB
@@ -106,7 +113,7 @@ class Dashboard extends React.Component {
     }
   };
   async saveConfig() {
-    const { image, headercolor, color, tempcolor } = this.state;
+    const { image, headercolor, color, tempcolor, footercolor } = this.state;
     let checkAccess = await localStorage.getItem("accessToken");
     if (checkAccess) {
       let affiliate = await localStorage.getItem("affiliate");
@@ -117,6 +124,7 @@ class Dashboard extends React.Component {
         headercolor: headercolor,
         color: color,
         tempcolor: tempcolor,
+        footercolor: footercolor,
         userDetails: userDetails,
         affiliate: affiliate
       });
@@ -167,25 +175,13 @@ class Dashboard extends React.Component {
         });
       }
 
-      if (template.series.length > 0) {
-        await this.setState({
-          t_footercolors: template.series[0].fields.footercolors
-            ? template.series[0].fields.footercolors
-            : [],
-          t_headercolors: template.series[0].fields.headercolors
-            ? template.series[0].fields.headercolors
-            : [],
-          t_widgetcolors: template.series[0].fields.widgetcolors
-            ? template.series[0].fields.widgetcolors
-            : []
-        });
-      }
       let affiliate_config = await API.getAffiliateConfig(userDetails.userName);
-      //console.log(affiliate_config, "affiliate_config");
+      console.log(affiliate_config, "affiliate_config");
       if (affiliate_config.series.length > 0) {
         await this.setState({
           color: affiliate_config.series[0].fields.color,
           headercolor: affiliate_config.series[0].fields.headercolor,
+          footercolor: affiliate_config.series[0].fields.footercolor,
           image: affiliate_config.series[0].fields.image,
           tempcolor: affiliate_config.series[0].fields.tempcolor
           //showConfig: false
@@ -294,17 +290,21 @@ class Dashboard extends React.Component {
               </Switch>
             </div>
           )}
-          {this.getRoute() ? <Footer /> : null}
+          {this.getRoute() ? (
+            <Footer footercolor={this.state["footercolor"]} />
+          ) : null}
           {this.state.showConfig ? (
             <FixedPlugin
               handleImageClick={this.handleImageClick}
               handleColorClick={this.handleColorClick}
               handleHeaderColorClick={this.handleHeaderColorClick}
+              handleFooterColorClick={this.handleFooterColorClick}
               handleSwitchChange={this.handleSwitchChange}
               bgColor={this.state["color"]}
               bgImage={this.state["image"]}
               checkedB={this.state["checkedB"]}
               headercolor={this.state["headercolor"]}
+              footercolor={this.state["footercolor"]}
               handleFixedClick={this.handleFixedClick}
               fixedClasses={this.state.fixedClasses}
               saveConfig={this.saveConfig}
