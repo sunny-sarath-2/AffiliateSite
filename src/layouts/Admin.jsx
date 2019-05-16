@@ -141,9 +141,18 @@ class Dashboard extends React.Component {
     let url = qs.parse(this.props.location.search);
     //console.log(url.accessToken);
     //console.log(url.strapiToken);
+    let userDetails;
     console.log(url);
     if (url.accessToken != undefined) {
-      localStorage.setItem("accessToken", url.accessToken);
+      if (url.accessToken === "null") {
+        userDetails = await url.affiliateDetails;
+        userDetails = JSON.parse(userDetails);
+        userDetails.userName = userDetails.userName.replace(" ", "_");
+        localStorage.setItem("accessToken", url.affiliateDetails);
+      } else {
+        localStorage.setItem("accessToken", url.accessToken);
+        userDetails = await appController.getUser(url.accessToken);
+      }
       localStorage.setItem("strapiToken", url.strapiToken);
       localStorage.setItem("affiliate", url.affiliate);
       if (url.sitelaunch) {
@@ -152,8 +161,10 @@ class Dashboard extends React.Component {
           showConfig: false
         });
       }
-      let userDetails = await appController.getUser(url.accessToken);
-      console.log(userDetails.userType);
+
+      console.log(userDetails, "user");
+
+      console.log(userDetails.userName, "username");
       if (userDetails.userType === "parent") {
         await this.setState({
           showConfig: false
